@@ -1,0 +1,161 @@
+extends Node
+
+var posicao_coluna = Vector3(19,0,0)
+var posicao_coluna2 = Vector3(0,0,0)
+var posicao_coluna3 = Vector3(-19,0,0)
+
+var clicou_disco5 = false
+var clicou_disco4 = false
+
+
+var disco = ""
+var node = "/CollisionShape/RayCast"
+
+var contador = 0
+
+var lista_coluna1 = ["disco5","disco4"] 
+var lista_coluna2 = [] 
+var lista_coluna3 = [] 
+
+var disco_ativo = false
+
+var peso = 0
+var peso1 = 0
+var peso2 = 0
+
+var posicao_inicial = 0
+
+
+
+func _physics_process(delta):
+	
+	if $Spatial2/AudioStreamPlayer.playing == false:
+		$Spatial2/AudioStreamPlayer.play()
+		
+	
+	if clicou_disco5 == true and Input.is_action_just_pressed("click") and disco_ativo == false:
+		disco_ativo = true
+		disco = "disco5"
+		
+		if get_node(disco + node).is_colliding() == false:
+			posicao_inicial = get_node(disco).translation.y
+			get_node(disco).translation.y = 17
+		else:
+			disco_ativo = false
+
+	if clicou_disco4 == true and Input.is_action_just_pressed("click") and disco_ativo == false:
+		disco_ativo = true
+		disco = "disco4"
+		if get_node(disco + node).is_colliding() == false:
+			posicao_inicial = get_node(disco).translation.y
+			get_node(disco).translation.y = 17
+		else:
+			disco_ativo = false
+			
+	if disco != "":
+		if get_node(disco).translation.y == 17:
+			if Input.is_action_just_pressed("1"):
+				movedisco_x(1, disco)
+			if Input.is_action_just_pressed("2"):
+				movedisco_x(2, disco)
+			if Input.is_action_just_pressed("3"):
+				movedisco_x(3, disco)	
+	
+
+
+#MOVE OS DISCOS
+func movedisco_x(coluna, disco):
+	if coluna == 1: 
+		peso1 = peso(disco)
+		
+		if lista_coluna1.size() > 0:
+			if lista_coluna1.size() > 0:
+				peso2 = peso(lista_coluna1[(lista_coluna1.size())-1])
+			else: 
+				peso2 = peso(lista_coluna1[lista_coluna1.size()])
+		else:
+			peso2 = 6
+		if peso1 < peso2:
+			get_node(disco).translation.x = posicao_coluna.x
+			if lista_coluna1.size() > 0:
+				get_node(disco).translation.y = get_node(lista_coluna1[lista_coluna1.size()-1]).translation.y+1.68
+			else:
+				get_node(disco).translation.y = 2
+			lista_coluna1.append(disco)
+			encontrar_na_lista(disco, lista_coluna2, lista_coluna3)
+		else:
+			get_node(disco).translation.y = posicao_inicial
+		
+	
+	if coluna == 2: 
+		peso1 = peso(disco)
+		
+		if lista_coluna2.size() > 0:
+			if lista_coluna2.size() > 0:
+				peso2 = peso(lista_coluna2[(lista_coluna2.size())-1])
+			else: 
+				peso2 = peso(lista_coluna2[lista_coluna2.size()])
+		else:
+			peso2 = 6
+		if peso1 < peso2:
+			get_node(disco).translation.x = posicao_coluna2.x
+			if lista_coluna2.size() > 0:
+				get_node(disco).translation.y = get_node(lista_coluna2[lista_coluna2.size()-1]).translation.y+1.68
+			else:
+				get_node(disco).translation.y = 2
+			lista_coluna2.append(disco)
+			encontrar_na_lista(disco, lista_coluna1, lista_coluna3)
+		else:
+			get_node(disco).translation.y = posicao_inicial
+	
+	if coluna == 3: 
+		peso1 = peso(disco)
+		if lista_coluna3.size() > 0:
+			if lista_coluna3.size() > 0:
+				peso2 = peso(lista_coluna3[(lista_coluna3.size())-1])
+			else: 
+				peso2 = peso(lista_coluna3[lista_coluna3.size()])
+		else:
+			peso2 = 6
+		if peso1 < peso2:
+			get_node(disco).translation.x = posicao_coluna3.x
+			if lista_coluna3.size() > 0:
+				get_node(disco).translation.y = get_node(lista_coluna3[lista_coluna3.size()-1]).translation.y+1.68
+			else:
+				get_node(disco).translation.y = 2
+			lista_coluna3.append(disco)
+			encontrar_na_lista(disco, lista_coluna1, lista_coluna2)
+		else:
+			get_node(disco).translation.y = posicao_inicial
+			
+	contador += 1
+	disco_ativo = false
+
+
+func encontrar_na_lista(obj, list1, list2):
+	if list1.has(obj):
+		list1.erase(obj)
+	if list2.has(obj):
+		list2.erase(obj)
+
+
+func peso(disco):
+	if disco == "disco4":
+		peso = 4
+	if disco == "disco5":
+		peso = 5
+	return peso
+
+
+#disco5
+func _on_disco5_mouse_entered():
+	clicou_disco5 = true
+func _on_disco5_mouse_exited():
+	clicou_disco5 = false
+
+
+#disco4
+func _on_disco4_mouse_entered():
+	clicou_disco4 = true
+func _on_disco4_mouse_exited():
+	clicou_disco4 = false
