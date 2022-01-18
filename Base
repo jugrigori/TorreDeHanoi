@@ -71,8 +71,8 @@ func movedisco_x(coluna, disco):
 		if lista_coluna1.size() > 0:
 			peso2 = peso(lista_coluna1[(lista_coluna1.size())-1])
 		else:
-			peso2 = peso1
-		if peso1 <= peso2:
+			peso2 = peso1+1
+		if peso1 < peso2:
 			get_node(disco).translation.x = posicao_coluna.x
 			if lista_coluna1.size() > 0:
 				get_node(disco).translation.y = get_node(lista_coluna1[lista_coluna1.size()-1]).translation.y+1.68
@@ -90,8 +90,8 @@ func movedisco_x(coluna, disco):
 		if lista_coluna2.size() > 0:
 			peso2 = peso(lista_coluna2[(lista_coluna2.size())-1])
 		else:
-			peso2 = peso1
-		if peso1 <= peso2:
+			peso2 = peso1+1
+		if peso1 < peso2:
 			get_node(disco).translation.x = posicao_coluna2.x
 			if lista_coluna2.size() > 0:
 				get_node(disco).translation.y = get_node(lista_coluna2[lista_coluna2.size()-1]).translation.y+1.68
@@ -107,8 +107,8 @@ func movedisco_x(coluna, disco):
 		if lista_coluna3.size() > 0:
 			peso2 = peso(lista_coluna3[(lista_coluna3.size())-1])
 		else:
-			peso2 = peso1
-		if peso1 <= peso2:
+			peso2 = peso1+1
+		if peso1 < peso2:
 			get_node(disco).translation.x = posicao_coluna3.x
 			if lista_coluna3.size() > 0:
 				get_node(disco).translation.y = get_node(lista_coluna3[lista_coluna3.size()-1]).translation.y+1.68
